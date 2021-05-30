@@ -7,14 +7,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     LRESULT result = 0;
     switch(msg) {
-        case WM_KEYDOWN: {
-            if(wparam == VK_ESCAPE)
-                // PostQuitMessage(0);
-            break;
-        }
-        case WM_DESTROY: {
+        //NOTE: Handle when the user quits the window
+        case WM_DESTROY:
+        case WM_CLOSE: {
             PostQuitMessage(0);
-            
         } break;
         default:
             result = DefWindowProcW(hwnd, msg, wparam, lparam);
@@ -30,7 +26,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hInstPrev, PSTR cmdline, int
     	//First register the type of window we are going to create
         WNDCLASSEXW winClass = {};
         winClass.cbSize = sizeof(WNDCLASSEXW);
-        winClass.style = CS_HREDRAW | CS_VREDRAW;
+        winClass.style = 0;
         winClass.lpfnWndProc = &WndProc;
         winClass.hInstance = hInstance;
         winClass.hIcon = LoadIconW(0, IDI_APPLICATION);
