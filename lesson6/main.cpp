@@ -7,6 +7,8 @@
 #include <windows.h>
 #include "3DMaths.h"
 
+#include <stdio.h>
+
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     LRESULT result = 0;
@@ -374,8 +376,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hInstPrev, PSTR cmdline, int
         d3d11DeviceContext->Draw(numVerts, 0);
 
         d3d11SwapChain->Present(1, 0);
-
-        
         
     }
     
