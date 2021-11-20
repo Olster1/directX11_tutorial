@@ -8,6 +8,7 @@
 #include "3DMaths.h"
 
 #include <stdio.h>
+#include <Math.h>
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
@@ -352,11 +353,14 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hInstPrev, PSTR cmdline, int
         d3d11DeviceContext->RSSetViewports(1, &viewport);
 
 
+        static float totalTime = 0;
+        totalTime += dt; 
+
         //NOTE: Update the constant buffer
         D3D11_MAPPED_SUBRESOURCE mappedSubresource;
         d3d11DeviceContext->Map(constantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedSubresource);
         Constants* constants = (Constants*)(mappedSubresource.pData);
-        constants->pos = {0.25f, 0.3f};
+        constants->pos = {cosf(totalTime)*0.25f, sinf(totalTime)*0.3f};
         constants->color = {1.0f, 0, 0, 1.f};
         d3d11DeviceContext->Unmap(constantBuffer, 0);
 
