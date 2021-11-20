@@ -12,11 +12,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     LRESULT result = 0;
     switch(msg) {
-        case WM_KEYDOWN: {
-            if(wparam == VK_ESCAPE)
-                // PostQuitMessage(0);
-            break;
-        }
+        case WM_CLOSE:
         case WM_DESTROY: {
             PostQuitMessage(0);
             
@@ -35,7 +31,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hInstPrev, PSTR cmdline, int
     	//First register the type of window we are going to create
         WNDCLASSEXW winClass = {};
         winClass.cbSize = sizeof(WNDCLASSEXW);
-        winClass.style = CS_HREDRAW | CS_VREDRAW;
+        winClass.style = 0;
         winClass.lpfnWndProc = &WndProc;
         winClass.hInstance = hInstance;
         winClass.hIcon = LoadIconW(0, IDI_APPLICATION);
@@ -190,9 +186,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hInstPrev, PSTR cmdline, int
             DispatchMessageW(&msg);
         }
 
+        //NOTE: Clear the frame buffer to a blue color
         FLOAT backgroundColor[4] = { 0.1f, 0.2f, 0.6f, 1.0f };
         d3d11DeviceContext->ClearRenderTargetView(d3d11FrameBufferView, backgroundColor);
 
+
+        //NOTE: Present the frame to the monitor
         d3d11SwapChain->Present(1, 0);
 
         //Timing the frame to see if vync is working. If you have a 60fps monitor you should see a time around 16.66 (not exact since your the OS can decide when to call your program's thread)

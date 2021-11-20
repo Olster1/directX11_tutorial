@@ -10,14 +10,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     LRESULT result = 0;
     switch(msg) {
-        case WM_KEYDOWN: {
-            if(wparam == VK_ESCAPE)
-                // PostQuitMessage(0);
-            break;
-        }
+        case WM_CLOSE:
         case WM_DESTROY: {
             PostQuitMessage(0);
-            
         } break;
         default:
             result = DefWindowProcW(hwnd, msg, wparam, lparam);
@@ -33,7 +28,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hInstPrev, PSTR cmdline, int
     	//First register the type of window we are going to create
         WNDCLASSEXW winClass = {};
         winClass.cbSize = sizeof(WNDCLASSEXW);
-        winClass.style = CS_HREDRAW | CS_VREDRAW;
+        winClass.style = 0;
         winClass.lpfnWndProc = &WndProc;
         winClass.hInstance = hInstance;
         winClass.hIcon = LoadIconW(0, IDI_APPLICATION);
@@ -176,6 +171,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hInstPrev, PSTR cmdline, int
 
     bool running = true;
     while(running) {
+
+        //NOTE: Process the messages 
     	MSG msg = {};
         while(PeekMessageW(&msg, 0, 0, 0, PM_REMOVE))
         {
@@ -185,12 +182,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hInstPrev, PSTR cmdline, int
             DispatchMessageW(&msg);
         }
 
+        //NOTE: Clear the background color
         FLOAT backgroundColor[4] = { 0.1f, 0.2f, 0.6f, 1.0f };
         d3d11DeviceContext->ClearRenderTargetView(d3d11FrameBufferView, backgroundColor);
 
+        //NOTE: Present the frame to the monitor
         d3d11SwapChain->Present(1, 0);
-
-        
     }
     
 
