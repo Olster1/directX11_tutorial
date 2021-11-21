@@ -327,7 +327,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hInstPrev, PSTR cmdline, int
             dt = (float)(currentTimeInSeconds - previousTimeInSeconds);
         }
 
-        //Timing the frame to see if vync is working. If you have a 60fps monitor you should see a time around 16.66 (not exact since your the OS can decide when to call your program's thread)
+        //Timing the frame to see if vync is working. If you have a 60fps monitor you should see a time around 0.016 (not exact since your the OS can decide when to call your program's thread)
         //If you change the first d3d11SwapChain->Present argument to 0 it will run as fast as it can, if you change it to more than 1, it will be in intervals of your monitor rate. 
         //So for a monitor with 60hz and a swap interval of 2 it will run at ~33.33ms per frame and so on. 
         char buffer[256];
